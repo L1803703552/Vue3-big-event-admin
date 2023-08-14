@@ -1,7 +1,10 @@
-<script setup></script>
+<script setup>
+// import { useUserStore } from '@/stores/user'
+// const userStore = useUserStore()
+</script>
 
 <template>
-  <div>我是App</div>
+  <router-view></router-view>
 </template>
 
 <style scoped></style>
