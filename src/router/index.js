@@ -7,7 +7,7 @@ const router = createRouter({
   // hash模式使用createWebHashHistory()
   // 参数是基础路径，默认/
   routes: [
-    { path: '/login', component: () => import('@/views/login/LoginPage') }, // 登录页
+    { path: '/login', component: () => import('@/views/login/LoginPage.vue') }, // 登录页
     {
       path: '/',
       component: () => import('@/views/layout/LayoutContainer.vue'),
