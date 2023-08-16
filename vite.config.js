@@ -17,6 +17,9 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()]
     })
   ],
+  server: {
+    port: 5173 // 设置端口号
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
