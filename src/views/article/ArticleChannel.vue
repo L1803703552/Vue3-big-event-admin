@@ -1,1 +1,1 @@
-<template>频道管理</template>
+<template>文章分类</template>
