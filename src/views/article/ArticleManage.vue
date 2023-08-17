@@ -24,13 +24,49 @@ const params = ref({
   state: ''
 })
 
+// 文章列表
 const articleList = ref([])
+// 总条数
+const total = ref(0)
+const loading = ref(false)
+// 获取文章数据
 const getArticleList = async () => {
+  loading.value = true
   const res = await artGetListService(params.value)
   articleList.value = res.data.data
+  total.value = res.data.total
+  loading.value = false
+}
+
+// 搜索 重置
+const onSearch = () => {
+  // 按照最新的条件，重新检索
+  params.value.pagenum = 1 // 重置页码
+  getArticleList()
+}
+const onReset = () => {
+  // 清空筛选条件，重新渲染
+  params.value.cate_id = ''
+  params.value.state = ''
+  params.value.pagenum = 1
+  getArticleList()
 }
 
 getArticleList()
+
+const onSizeChange = (size) => {
+  // 只要每页条数变化了，那么当前正在访问的页面意义不大了
+  // 重新从第一页渲染
+  params.value.pagenum = 1 // 当前页数
+  params.value.pagesize = size // 每页条数
+  // 基于最新的当前页和每页条数 渲染数据
+  getArticleList()
+}
+const onCurrentChange = (page) => {
+  params.value.pagenum = page
+  // 基于最新的当前页，渲染数据
+  getArticleList()
+}
 </script>
 <template>
   <page-container title="文章管理">
@@ -48,11 +84,12 @@ getArticleList()
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">搜索</el-button>
-        <el-button>重置</el-button>
+        <el-button @click="onSearch" type="primary">搜索</el-button>
+        <el-button @click="onReset">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="articleList">
+    <!-- 表格区域 -->
+    <el-table :data="articleList" v-loading="loading">
       <el-table-column label="文章标题" prop="title">
         <template #default="{ row }">
           <el-link type="primary" :underline="false">{{ row.title }}</el-link>
@@ -84,6 +121,18 @@ getArticleList()
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页区域 -->
+    <el-pagination
+      v-model:current-page="params.pagenum"
+      v-model:page-size="params.pagesize"
+      :page-sizes="[5, 10, 20, 50]"
+      :background="true"
+      layout="jumper, prev, pager, next, sizes, total"
+      :total="total"
+      @size-change="onSizeChange"
+      @current-change="onCurrentChange"
+      style="margin-top: 20px; justify-content: flex-end"
+    />
   </page-container>
 </template>
 <style lang="scss" scoped></style>
