@@ -1,14 +1,21 @@
 <script setup>
 import { ref } from 'vue'
 import { Edit, Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
-import ChannelSelect from '@/components/ChannelSelect.vue'
 import { artGetListService } from '@/api/article'
 import { formatTime } from '@/utils/format.js'
+import ChannelSelect from '@/components/ChannelSelect.vue'
+import ArticleEdit from '@/components/ArticleEdit.vue'
+
+const articleEditRef = ref()
+// 添加
+const onAddArticle = () => {
+  articleEditRef.value.open({})
+  ElMessage.success('添加操作')
+}
 // 编辑
 const onEditArticle = (row) => {
+  articleEditRef.value.open(row)
   ElMessage.success('编辑操作')
-  console.log(row)
 }
 // 删除
 const onDelArticle = (row) => {
@@ -68,10 +75,11 @@ const onCurrentChange = (page) => {
   getArticleList()
 }
 </script>
+
 <template>
   <page-container title="文章管理">
     <template #extra>
-      <el-button type="primary">添加文章</el-button>
+      <el-button type="primary" @click="onAddArticle">添加文章</el-button>
     </template>
     <el-form inline>
       <el-form-item label="文章分类：">
@@ -133,6 +141,8 @@ const onCurrentChange = (page) => {
       @current-change="onCurrentChange"
       style="margin-top: 20px; justify-content: flex-end"
     />
+    <!-- 抽屉 -->
+    <ArticleEdit ref="articleEditRef"></ArticleEdit>
   </page-container>
 </template>
 <style lang="scss" scoped></style>

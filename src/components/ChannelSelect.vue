@@ -5,6 +5,9 @@ import { ref } from 'vue'
 defineProps({
   cid: {
     type: [Number, String]
+  },
+  width: {
+    type: String
   }
 })
 const emit = defineEmits(['update:cid'])
@@ -16,8 +19,13 @@ const getChannelList = async () => {
 }
 getChannelList()
 </script>
+
 <template>
-  <el-select :modelValue="cid" @update:modelValue="emit('update:cid', $event)">
+  <el-select
+    :modelValue="cid"
+    @update:modelValue="emit('update:cid', $event)"
+    :style="{ width }"
+  >
     <el-option
       v-for="item in channelList"
       :key="item.id"

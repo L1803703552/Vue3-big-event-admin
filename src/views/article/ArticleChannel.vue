@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { artGetChannelService, artDelChannelService } from '@/api/article'
 import { Edit, Delete } from '@element-plus/icons-vue'
-import channelEdit from '@/components/channelEdit.vue'
+import ChannelEdit from '@/components/ChannelEdit.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const channelList = ref([])
@@ -70,7 +70,7 @@ const onSuccess = () => {
         <el-empty description="没有数据！"></el-empty>
       </template>
     </el-table>
-    <channelEdit @success="onSuccess" ref="dialog"></channelEdit>
+    <ChannelEdit @success="onSuccess" ref="dialog"></ChannelEdit>
   </page-container>
 </template>
 <style lang="scss" scoped></style>

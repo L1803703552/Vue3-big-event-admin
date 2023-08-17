@@ -20,3 +20,5 @@ export const artGetListService = (params) =>
   request.get('/my/article/list', {
     params
   })
+
+// 发布文章内容
